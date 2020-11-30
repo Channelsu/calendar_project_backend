@@ -10,6 +10,12 @@ var schesRouter = require('./routes/sches');
 
 var app = express();
 
+/**
+ * CORS許可
+ */
+const cors = require("cors");
+app.use(cors());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
