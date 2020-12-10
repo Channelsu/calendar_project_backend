@@ -7,7 +7,7 @@ var router = express.Router();
 // });
 
 router.get('/', function(req, res, next) {
-  let test = {name: 'ルートです', date: '20201130'}
+  let test = {name: 'ルートです', date: '20201130'};
   return res.status(200).json({
     success: true,
     message: '成功です！',
@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/test', function(req, res, next) {
-  let test = {name: 'テストです', date: '20201130'}
+  let test = {name: 'テストです', date: '20201130'};
   return res.status(200).json({
     success: true,
     message: '成功です！',
@@ -26,11 +26,20 @@ router.get('/test', function(req, res, next) {
 
 router.post('/testpost', function(req, res, next) {
   console.log('req.body→', req.body);
-  let test = {name: 'テストです', date: '20201130'}
+  let result = {
+    title: req.body.title,
+    startDate: req.body.startDate,
+    startTime: req.body.startTime,
+    endDate: req.body.endDate,
+    endTime: req.body.endTime,
+    barColor: req.body.barColor,
+    remark: req.body.remark,
+  };
+  console.log('result→', result);
   return res.status(200).json({
     success: true,
     message: '成功です！',
-    object: test,
+    object: result,
   });
 });
 
