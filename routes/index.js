@@ -26,21 +26,28 @@ router.get('/test', function(req, res, next) {
 
 router.post('/testpost', function(req, res, next) {
   console.log('req.body→', req.body);
-  let result = {
-    title: req.body.title,
-    startDate: req.body.startDate,
-    startTime: req.body.startTime,
-    endDate: req.body.endDate,
-    endTime: req.body.endTime,
-    barColor: req.body.barColor,
-    remark: req.body.remark,
-  };
-  console.log('result→', result);
-  return res.status(200).json({
-    success: true,
-    message: '成功です！',
-    object: result,
-  });
+  try {
+    let result = {
+      title: req.body.title,
+      startDate: req.body.startDate,
+      startTime: req.body.startTime,
+      endDate: req.body.endDate,
+      endTime: req.body.endTime,
+      barColor: req.body.barColor,
+      remark: req.body.remark,
+    };
+    console.log('result→', result);
+    return res.status(200).json({
+      success: true,
+      message: '成功です！',
+      object: result,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: err,
+    });
+  }
 });
 
 module.exports = router;
