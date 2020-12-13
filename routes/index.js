@@ -52,15 +52,26 @@ router.post('/ins', function(req, res, next) {
 
 router.get('/sches', function(req, res, next) {
   try {
-    let result = {
-      title: '本社',
-      startDate: '20201215',
-      startTime: '1000',
-      endDate: '20201215',
-      endTime: '1200',
-      barColor: 'red',
-      remark: '備考備考備考',
-    };
+    let result = [
+      {
+        title: '本社',
+        startDate: '20201215',
+        startTime: '1000',
+        endDate: '20201215',
+        endTime: '1200',
+        barColor: 'red',
+        remark: '備考備考備考',
+      },
+      {
+        title: '調布',
+        startDate: '20201220',
+        startTime: '1300',
+        endDate: '20201220',
+        endTime: '1800',
+        barColor: 'blue',
+        remark: '直帰します',
+      },
+    ];
     return res.status(200).json({
       success: true,
       message: 'スケジュール取得成功',
