@@ -31,7 +31,7 @@ router.get('/', function(req, res, next) {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: err,
+      message: error,
     });
   }
 });
@@ -57,7 +57,7 @@ router.post('/ins', function(req, res, next) {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: err,
+      message: error,
     });
   }
 });
