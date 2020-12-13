@@ -24,7 +24,7 @@ router.get('/test', function(req, res, next) {
   });
 });
 
-router.post('/testpost', function(req, res, next) {
+router.post('/ins', function(req, res, next) {
   console.log('req.body→', req.body);
   try {
     let result = {
@@ -39,7 +39,31 @@ router.post('/testpost', function(req, res, next) {
     console.log('result→', result);
     return res.status(200).json({
       success: true,
-      message: '成功です！',
+      message: 'スケジュールをDBに格納成功',
+      object: result,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: err,
+    });
+  }
+});
+
+router.get('/sches', function(req, res, next) {
+  try {
+    let result = {
+      title: '本社',
+      startDate: '20201215',
+      startTime: '1000',
+      endDate: '20201215',
+      endTime: '1200',
+      barColor: 'red',
+      remark: '備考備考備考',
+    };
+    return res.status(200).json({
+      success: true,
+      message: 'スケジュール取得成功',
       object: result,
     });
   } catch (error) {
