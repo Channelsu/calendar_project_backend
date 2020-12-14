@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   sches.init({
-    user_id: DataTypes.INTEGER,
     title: DataTypes.STRING,
     start_date: DataTypes.STRING,
     start_time: DataTypes.STRING,
