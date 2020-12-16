@@ -1,29 +1,35 @@
 var express = require('express');
+const { Sequelize, DataTypes } = require("sequelize");
+const env = express().get("env");
+const config = require("../config/config.json")[env];
+const sequelize = new Sequelize(config);
 const sches = require("../models/sches");
+const SchesTable = sches(sequelize, DataTypes);
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
   try {
     let result = [
-      {
-        title: '本社',
-        startDate: '20201215',
-        startTime: '1000',
-        endDate: '20201215',
-        endTime: '1200',
-        barColor: 'red',
-        remark: '備考備考備考',
-      },
-      {
-        title: '調布',
-        startDate: '20201220',
-        startTime: '1300',
-        endDate: '20201220',
-        endTime: '1800',
-        barColor: 'blue',
-        remark: '直帰します',
-      },
+      // {
+      //   title: '本社',
+      //   startDate: '20201215',
+      //   startTime: '1000',
+      //   endDate: '20201215',
+      //   endTime: '1200',
+      //   barColor: 'red',
+      //   remark: '備考備考備考',
+      // },
+      // {
+      //   title: '調布',
+      //   startDate: '20201220',
+      //   startTime: '1300',
+      //   endDate: '20201220',
+      //   endTime: '1800',
+      //   barColor: 'blue',
+      //   remark: '直帰します',
+      // },
     ];
+    result = await SchesTable.findAll();
     return res.status(200).json({
       success: true,
       message: 'スケジュール取得成功',
