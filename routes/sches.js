@@ -14,7 +14,7 @@ router.use(bodyparser.json());
 
 router.get('/', async function(req, res, next) {
   try {
-    let result = [
+    let results = [
       // {
       //   title: '本社',
       //   startDate: '20201215',
@@ -34,11 +34,28 @@ router.get('/', async function(req, res, next) {
       //   remark: '直帰します',
       // },
     ];
-    result = await SchesTable.findAll();
+    results = await SchesTable.findAll();
+    const fmtedResults = results.map((result) => {
+      const obj = {
+        id: result.dataValues.id,
+        title: result.dataValues.title,
+        startDate: result.dataValues.start_date,
+        startTime: result.dataValues.start_time,
+        endDate: result.dataValues.end_date,
+        endTime: result.dataValues.end_time,
+        barColor: result.dataValues.bar_color,
+        remarks: result.dataValues.remarks,
+        createdAt: result.dataValues.createdAt,
+        updatedAt: result.dataValues.updatedAt,
+      }
+      return obj
+    })
+
+    console.log('res', fmtedResults);
     return res.status(200).json({
       success: true,
       message: 'スケジュール取得成功',
-      object: result,
+      object: fmtedResults,
     });
   } catch (error) {
     return res.status(500).json({
@@ -57,7 +74,7 @@ router.post('/ins', async function(req, res, next) {
     tx = await sequelize.transaction();
 
     // 外出予定の登録
-    let result = await SchesTable.create(
+    let results = await SchesTable.create(
       {
         title: req.body.title,
         start_date: req.body.start_date,
@@ -75,11 +92,11 @@ router.post('/ins', async function(req, res, next) {
     // コミット
     await tx.commit();
     
-    console.log('result→', result);
+    console.log('results→', results);
     return res.status(200).json({
       success: true,
       message: 'スケジュールをDBに格納成功',
-      object: result,
+      object: results,
     });
   } catch (error) {
     // ロールバック
