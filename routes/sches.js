@@ -22,7 +22,7 @@ router.get('/', async function(req, res, next) {
       //   endDate: '20201215',
       //   endTime: '1200',
       //   barColor: 'red',
-      //   remark: '備考備考備考',
+      //   remarks: '備考備考備考',
       // },
       // {
       //   title: '調布',
@@ -31,7 +31,7 @@ router.get('/', async function(req, res, next) {
       //   endDate: '20201220',
       //   endTime: '1800',
       //   barColor: 'blue',
-      //   remark: '直帰します',
+      //   remarks: '直帰します',
       // },
     ];
     results = await SchesTable.findAll();
@@ -82,7 +82,7 @@ router.post('/ins', async function(req, res, next) {
         end_date: req.body.end_date,
         end_time: req.body.end_time,
         bar_color: req.body.bar_color,
-        remark: req.body.remark,
+        remarks: req.body.remarks,
       },
       {
         transaction: tx,
