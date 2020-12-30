@@ -110,4 +110,64 @@ router.post('/ins', async function(req, res, next) {
   }
 });
 
+router.post('/del', async function (req, res, next) {
+  console.log('req.body→', req.body);
+
+  let results = {};
+  let tx;
+
+  try {
+    // 予定IDで検索
+    results = await SchesTable.findOne({
+      attributes: ["id"],
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    // 存在しない予定の場合
+    if (results == null) {
+      // 予定ID不一致
+      console.log("Error scheid mismatch.");
+
+      return res.status(500).json({
+        success: false,
+        message: "Error scheid mismatch.",
+        object: results,
+      });
+    }
+
+    // トランザクション開始
+    tx = await sequelize.transaction();
+
+    // 予定の削除
+    results = await SchesTable.destroy(
+      {
+        where: {
+          id: req.body.id,
+        },
+      },
+      {
+        transaction: tx,
+      }
+    );
+
+    // コミット
+    await tx.commit();
+
+    return res.status(200).json({
+      success: true,
+      message: "sche delete completed.",
+      object: results,
+    });
+  } catch (err) {
+    // ロールバック
+    if (tx) {
+      await tx.rollback();
+    }
+
+    return res.status(500).json({ success: false, message: err });
+  }
+});
+
 module.exports = router;
