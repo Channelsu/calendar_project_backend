@@ -110,6 +110,58 @@ router.post('/ins', async function(req, res, next) {
   }
 });
 
+router.post('/upd', async function (req, res, next) {
+  console.log('req.body→', req.body);
+  let tx;
+  const filter = {
+    where: { id: req.body.id }
+  };
+
+  try {
+    // トランザクション開始
+    tx = await sequelize.transaction();
+
+    // 予定更新
+    let results = await SchesTable.update(
+      {
+        title: req.body.title,
+        start_date: req.body.start_date,
+        start_time: req.body.start_time,
+        end_date: req.body.end_date,
+        end_time: req.body.end_time,
+        bar_color: req.body.bar_color,
+        remarks: req.body.remarks,
+      },
+      filter,
+      { transaction: tx, }
+    );
+
+    // コミット
+    await tx.commit();
+
+    // 更新対象が存在しない場合
+    if (results === 0) {
+      return res.status(500).json({
+        success: false,
+        message: "sche target not found.",
+        objects: results,
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: "sche update completed.",
+        objects: results,
+      });
+    }
+  } catch (err) {
+    // ロールバック
+    if (tx) {
+      await tx.rollback();
+    }
+    return res.status(500).json({ success: false, message: err });
+  }
+});
+
 router.post('/del', async function (req, res, next) {
   console.log('req.body→', req.body);
 
